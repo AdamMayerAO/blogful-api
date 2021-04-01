@@ -20,7 +20,11 @@ articlesRouter
             req.app.get('db')
         )
         .then(articles =>{
-            res.json(articles)
+            res.json(articles.map(article => {
+                article.title = xss(article.title)
+                article.content = xss(article.content)
+                return article
+            }))
         })
         .catch(next)
     })
